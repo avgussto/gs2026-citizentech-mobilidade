@@ -1,0 +1,13 @@
+.env
+.env.*
+!.env.example
+__pycache__/
+*.pyc
+*.zip
+.venv/
+.tmp/
+
+# mídia do vídeo (vozes do trio e renderizações)
+audios e videos/
+*.mp4
+*.ogg

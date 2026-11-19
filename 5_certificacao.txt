@@ -1,0 +1,19 @@
+CERTIFICAÇÃO — GS2026.2 — CitizenTech Mobilidade
+
+Turma: 1CCR
+Modalidade: trio
+Integrantes:
+- Sergio Augusto — RM 570184
+- Gabriel Freitas — RM 572943
+- Giovanni Merlotti — RM 573721
+
+Projeto: Assistente de mobilidade da cidade fictícia de Aurora do Vale.
+Base documental: simulada e original.
+
+PENDENTE ANTES DO ENVIO:
+- Inserir link do notebook final no Colab: ____________________
+- Inserir link do vídeo não listado: ____________________
+- Inserir demais links exigidos pela tela final do Portal FIAP: ____________________
+- Revisar a declaração de autoria e uso de IA com todos os integrantes.
+
+Este arquivo é um modelo ainda não certificado pelo grupo.

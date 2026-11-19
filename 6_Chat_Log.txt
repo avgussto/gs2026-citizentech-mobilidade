@@ -1,0 +1,38 @@
+REGISTRO DO PROCESSO E USO DE IA — GS2026.2
+
+Projeto: CitizenTech Mobilidade, turma 1CCR.
+Integrantes: Sergio Augusto (RM 570184), Gabriel Freitas (RM 572943) e Giovanni Merlotti (RM 573721).
+
+Como a disciplina é Prompt and Artificial Intelligence, o trio usou assistentes de IA como ferramenta de trabalho do início ao fim e registra abaixo, de forma transparente, o que foi feito com apoio de IA e o que foi decidido e revisado pelo grupo.
+
+DECISÕES DO GRUPO
+- Escolha da frente de mobilidade urbana, da cidade fictícia de Aurora do Vale e da modalidade trio.
+- Aprovação do plano de implementação proposto com apoio de IA.
+- 11/11/2026: após o comunicado do professor autorizando alternativas ao Ollama Cloud, o grupo adotou inicialmente o OpenRouter (`openrouter/free`), validado em 12/11/2026 com chamada de ferramenta.
+- 16/11/2026: para a execução final e a avaliação RAGAS, o grupo trocou para a API da OpenAI com `gpt-4o-mini`, que respondeu de forma estável às 32 métricas. O OpenRouter permanece apenas no script de validação histórico.
+- 12/11/2026: o trio escreveu as oito respostas de referência da seção 7, com os documentos AV-MOB correspondentes, e as revisou em conjunto.
+
+RESPOSTAS DE REFERÊNCIA ESCRITAS PELO TRIO EM 12/11/2026
+
+1. A base informa que a linha 714 liga o Terminal Central ao bairro Jardim Ipê. Ela não cita um segundo bairro. Fonte: AV-MOB-001.
+2. Aos domingos, a linha 714 sai do Terminal Central às 08:00, 10:00, 14:00 e 18:00. Esses são horários de saída do terminal, não de passagem nos pontos. Fonte: AV-MOB-002.
+3. O P09 fica na Rua das Acácias, número 88, junto ao Centro Comunitário, a aproximadamente 180 metros do P07. Fonte: AV-MOB-001.
+4. Sim. O P09 tem rampa, piso tátil e espaço de embarque para cadeira de rodas. Fonte: AV-MOB-001.
+5. Não. Apesar de o itinerário anterior descrever o P07 como acessível, a portaria o interditou para embarque e desembarque desde 07/11/2026. A alternativa indicada é o P09. Fontes: AV-MOB-001 e AV-MOB-003.
+6. Sim. A interdição do P07 também vale aos domingos, mas a linha 714 continua circulando pelo Jardim Ipê e mantém as partidas programadas. Para embarcar no trecho afetado, o passageiro deve usar o P09. Fontes: AV-MOB-002 e AV-MOB-003.
+7. É o P09, na Rua das Acácias, número 88, junto ao Centro Comunitário. Ele fica a cerca de 180 metros do P07 e possui rampa, piso tátil e espaço de embarque para cadeira de rodas. Fontes: AV-MOB-001 e AV-MOB-003.
+8. Não. A portaria interditou o P07, mas informa que a linha 714 mantém as partidas programadas no Terminal Central. Fontes: AV-MOB-002 e AV-MOB-003.
+
+APOIO DE IA UTILIZADO
+- Codex (OpenAI): leu o briefing, propôs o plano e gerou rascunhos do notebook, dos três documentos simulados, do README, dos modelos de entrega e do roteiro do vídeo.
+- Codex: adaptou a conexão do notebook para OpenRouter e depois para OpenAI, fez validações locais de estrutura e lógica determinística, conferiu as oito respostas de referência com os documentos simulados e as inseriu no notebook e no gerador.
+- Codex: executou localmente, em 16/11/2026, a avaliação RAGAS completa (32 de 32 métricas com `gpt-4o-mini`) e gerou os sete PNGs de evidência a partir dos logs da execução.
+- Claude Code (Anthropic), em 19/11/2026: revisou este registro, o README e a certificação; transcreveu os áudios do vídeo para conferir as falas com o roteiro; editou o vídeo final com ffmpeg; e publicou o repositório no GitHub sem o arquivo `.env`.
+
+REVISÃO E AUTORIA DO GRUPO
+- Documentos simulados, código, respostas de referência e guardrails: revisados pelo trio em conjunto.
+- Resultado RAGAS (médias: faithfulness 0,9571; response_relevancy 0,7786; context_precision 0,9104; context_recall 0,6667), interpretação dos números e melhoria proposta para a pergunta 8: analisados pelo trio em conjunto.
+- Vídeo: falas gravadas por Sergio, Giovanni e Gabriel; montagem assistida por IA e revisada pelo trio.
+- Revisão final do ZIP e envio: trio, em 19/11/2026.
+
+Nenhuma chave de API foi incluída no notebook, no ZIP ou no repositório; as chaves ficam apenas no `.env` local (ignorado pelo Git) ou nos Secrets do Colab.
