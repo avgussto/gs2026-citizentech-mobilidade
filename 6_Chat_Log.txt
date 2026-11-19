@@ -8,8 +8,9 @@ Como a disciplina é Prompt and Artificial Intelligence, o trio usou assistentes
 DECISÕES DO GRUPO
 - Escolha da frente de mobilidade urbana, da cidade fictícia de Aurora do Vale e da modalidade trio.
 - Aprovação do plano de implementação proposto com apoio de IA.
-- 11/11/2026: após o comunicado do professor autorizando alternativas ao Ollama Cloud, o grupo adotou inicialmente o OpenRouter (`openrouter/free`), validado em 12/11/2026 com chamada de ferramenta.
-- 16/11/2026: para a execução final e a avaliação RAGAS, o grupo trocou para a API da OpenAI com `gpt-4o-mini`, que respondeu de forma estável às 32 métricas. O OpenRouter permanece apenas no script de validação histórico.
+- Provedor do modelo: o briefing pede Ollama Cloud, mas o serviço não estava mais utilizável para o grupo. Após o comunicado do professor de 11/11/2026 autorizando alternativas, o grupo adotou o OpenRouter (`openrouter/free`, sem custo).
+- 12/11/2026: o OpenRouter foi validado no notebook e funcionou bem em todos os testes de desenvolvimento, inclusive com chamada de ferramenta pelo agente (script `validate_openrouter.py`).
+- 16/11/2026: o limite diário de requisições do plano gratuito do OpenRouter impediu concluir a avaliação RAGAS completa (8 perguntas × 4 métricas, mais as chamadas do juiz) antes do prazo. Para não entregar números estimados, o grupo executou a medição final com a API da OpenAI (`gpt-4o-mini`), que concluiu as 32 métricas. O pipeline usa `ChatOpenAI` (LangChain), interface compatível com OpenAI, OpenRouter e outros provedores do mesmo padrão.
 - 12/11/2026: o trio escreveu as oito respostas de referência da seção 7, com os documentos AV-MOB correspondentes, e as revisou em conjunto.
 
 RESPOSTAS DE REFERÊNCIA ESCRITAS PELO TRIO EM 12/11/2026
@@ -27,7 +28,7 @@ APOIO DE IA UTILIZADO
 - Codex (OpenAI): leu o briefing, propôs o plano e gerou rascunhos do notebook, dos três documentos simulados, do README, dos modelos de entrega e do roteiro do vídeo.
 - Codex: adaptou a conexão do notebook para OpenRouter e depois para OpenAI, fez validações locais de estrutura e lógica determinística, conferiu as oito respostas de referência com os documentos simulados e as inseriu no notebook e no gerador.
 - Codex: executou localmente, em 16/11/2026, a avaliação RAGAS completa (32 de 32 métricas com `gpt-4o-mini`) e gerou os sete PNGs de evidência a partir dos logs da execução.
-- Claude Code (Anthropic), em 19/11/2026: revisou este registro, o README e a certificação; transcreveu os áudios do vídeo para conferir as falas com o roteiro; editou o vídeo final com ffmpeg; e publicou o repositório no GitHub sem o arquivo `.env`.
+- Claude Code (Anthropic), em 19/11/2026: revisou este registro, o README e a certificação; transcreveu os áudios do vídeo para conferir as falas com o roteiro; editou o vídeo final com ffmpeg; publicou o repositório no GitHub sem o arquivo `.env`; e adaptou a célula de credenciais do notebook para aceitar `OPENAI_API_KEY`, `OPENROUTER_API_KEY` ou `API_KEY` genérica, testando a chamada ao modelo com as chaves OpenAI e OpenRouter do grupo.
 
 REVISÃO E AUTORIA DO GRUPO
 - Documentos simulados, código, respostas de referência e guardrails: revisados pelo trio em conjunto.

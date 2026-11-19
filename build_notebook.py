@@ -24,7 +24,7 @@ def code(source):
 
 markdown("""# CitizenTech Mobilidade — Aurora do Vale
 
-Município e documentos **fictícios**. Execute **Runtime → Run all** no Google Colab. Cadastre `OPENAI_API_KEY` em Secrets antes de executar. Nenhuma célula imprime a chave.
+Município e documentos **fictícios**. Execute **Runtime → Run all** no Google Colab. Cadastre **uma** chave em Secrets antes de executar: `OPENAI_API_KEY`, `OPENROUTER_API_KEY` ou `API_KEY` (genérica). Opcional: `MODEL_ID` e `API_BASE_URL`. Nenhuma célula imprime a chave.
 
 ## 0. Metadados
 
@@ -34,11 +34,11 @@ Município e documentos **fictícios**. Execute **Runtime → Run all** no Googl
 | Modalidade | Trio |
 | Integrantes | Sergio Augusto — RM 570184; Gabriel Freitas — RM 572943; Giovanni Merlotti — RM 573721 |
 | Frente | Mobilidade urbana |
-| Modelo de resposta e juiz | `gpt-4o-mini` via OpenAI |
+| Modelo de resposta e juiz | `gpt-4o-mini` (padrão). Desenvolvimento e testes com OpenRouter; medição RAGAS de 16/11/2026 via OpenAI, por causa do limite diário do plano gratuito do OpenRouter |
 | IA no desenvolvimento | Auxílio para rascunho de código e documentos e inserção das respostas de referência escritas pelo trio. A análise de métricas foi feita pelo grupo. Ver `6_Chat_Log.txt`. |
 | Divisão planejada | Sergio: base e README; Gabriel: RAG e avaliação; Giovanni: agente e Gradio. Todos: revisão das referências e vídeo. |
 
-O notebook utiliza ChromaDB, LCEL, ChatOpenAI conectado à OpenAI, ferramentas, Gradio e RAGAS. Os documentos originais estão em `2_base_documental/` no ZIP e também embutidos aqui para que o notebook rode sozinho no Colab.
+O notebook utiliza ChromaDB, LCEL, ChatOpenAI (compatível com OpenAI e OpenRouter), ferramentas, Gradio e RAGAS. Os documentos originais estão em `2_base_documental/` no ZIP e também embutidos aqui para que o notebook rode sozinho no Colab.
 """)
 
 code("""# Versões diretas fixadas para reproduzir a instalação no Colab.
@@ -51,25 +51,49 @@ from datetime import date, datetime
 from statistics import mean
 from zoneinfo import ZoneInfo
 
+# Credencial: cadastre UMA das chaves abaixo nos Secrets do Colab (ou no .env local).
+#   OPENAI_API_KEY      -> API da OpenAI, modelo gpt-4o-mini
+#   OPENROUTER_API_KEY  -> OpenRouter, modelo openai/gpt-4o-mini
+#   API_KEY             -> qualquer chave; chaves 'sk-or-' usam o OpenRouter, as demais a OpenAI.
+#                          Opcional: API_BASE_URL para outro provedor compatível com a API da OpenAI.
+# Opcional em qualquer caso: MODEL_ID para trocar o modelo (ex.: openrouter/free).
 try:
     from google.colab import userdata
-    OPENAI_API_KEY = userdata.get('OPENAI_API_KEY')
+    def ler_segredo(nome):
+        try:
+            return userdata.get(nome)
+        except Exception:  # segredo ausente ou sem acesso liberado ao notebook
+            return None
 except ImportError:
-    # Teste local opcional. No Colab, a chave vem exclusivamente de Secrets.
-    if not os.environ.get('OPENAI_API_KEY') and Path('.env').is_file():
+    # Teste local opcional. No Colab, as chaves vêm exclusivamente de Secrets.
+    if Path('.env').is_file():
         for linha in Path('.env').read_text(encoding='utf-8').splitlines():
             nome, separador, valor = linha.partition('=')
-            if separador and nome.strip() == 'OPENAI_API_KEY':
-                os.environ['OPENAI_API_KEY'] = valor.strip().strip(chr(34) + chr(39))
-                break
-    OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
-if not OPENAI_API_KEY:
-    raise RuntimeError('Cadastre OPENAI_API_KEY nos Secrets do Colab ou no .env local antes de executar.')
+            if separador and not nome.strip().startswith('#') and not os.environ.get(nome.strip()):
+                os.environ[nome.strip()] = valor.strip().strip(chr(34) + chr(39))
+    def ler_segredo(nome):
+        return os.environ.get(nome) or None
 
-MODEL_ID = 'gpt-4o-mini'
+OPENROUTER_URL = 'https://openrouter.ai/api/v1'
+if ler_segredo('OPENAI_API_KEY'):
+    API_KEY, BASE_URL, PROVEDOR, MODELO_PADRAO = ler_segredo('OPENAI_API_KEY'), None, 'OpenAI', 'gpt-4o-mini'
+elif ler_segredo('OPENROUTER_API_KEY'):
+    API_KEY, BASE_URL, PROVEDOR, MODELO_PADRAO = ler_segredo('OPENROUTER_API_KEY'), OPENROUTER_URL, 'OpenRouter', 'openai/gpt-4o-mini'
+elif ler_segredo('API_KEY'):
+    API_KEY = ler_segredo('API_KEY')
+    if API_KEY.startswith('sk-or-'):
+        BASE_URL, PROVEDOR, MODELO_PADRAO = OPENROUTER_URL, 'OpenRouter', 'openai/gpt-4o-mini'
+    else:
+        BASE_URL = ler_segredo('API_BASE_URL')
+        PROVEDOR, MODELO_PADRAO = (BASE_URL or 'OpenAI'), 'gpt-4o-mini'
+else:
+    raise RuntimeError('Cadastre OPENAI_API_KEY, OPENROUTER_API_KEY ou API_KEY nos Secrets do Colab (ou no .env local) antes de executar.')
+
+MODEL_ID = ler_segredo('MODEL_ID') or MODELO_PADRAO
+CONEXAO_LLM = {'model': MODEL_ID, 'api_key': API_KEY, 'base_url': BASE_URL}
 BASE_DIR = Path('2_base_documental')
 BASE_DIR.mkdir(exist_ok=True)
-print('Metadados carregados; credencial presente (valor oculto).')
+print(f'Metadados carregados; provedor {PROVEDOR}, modelo {MODEL_ID}; credencial presente (valor oculto).')
 """)
 
 markdown("""## 1. Base documental e chunking
@@ -197,7 +221,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_openai import ChatOpenAI
 
-llm = ChatOpenAI(model=MODEL_ID, api_key=OPENAI_API_KEY,
+llm = ChatOpenAI(**CONEXAO_LLM,
                  temperature=0, timeout=90, max_retries=0)
 INJECAO = re.compile(r'ignore (as|todas as|todas) instruções|desconsidere (as )?instruções|system prompt|revele (a|sua) chave', re.I)
 SEM_BASE = 'Não há informação na base documental para responder com segurança. Consulte o canal oficial da Secretaria Municipal de Mobilidade de Aurora do Vale.'
@@ -475,11 +499,16 @@ if ARQUIVO_AVALIACAO.exists():
     anterior = json.loads(ARQUIVO_AVALIACAO.read_text(encoding='utf-8'))
 else:
     anterior = {'status': 'pendente'}
+if not anterior.get('status', '').startswith('pendente'):
+    assert anterior.get('status') in {'parcial', 'medido'}, 'Estado de avaliação desconhecido.'
+    if not all(anterior.get(chave) == valor for chave, valor in identidade.items()):
+        # Outro modelo ou chunking: guarda a medição anterior e mede do zero, sem misturar execuções.
+        ARQUIVO_AVALIACAO.with_name('3_avaliacao_ragas_anterior.json').write_text(json.dumps(anterior, ensure_ascii=False, indent=2), encoding='utf-8')
+        print('Configuração diferente da medição salva; anterior copiada para 3_avaliacao_ragas_anterior.json e nova medição iniciada.')
+        anterior = {'status': 'pendente', **identidade, 'perguntas': esperadas, 'medias': None}
 if anterior.get('status', '').startswith('pendente'):
     avaliacao = {'status': 'parcial', **identidade, 'perguntas': esperadas, 'medias': None}
 else:
-    assert anterior.get('status') in {'parcial', 'medido'}, 'Estado de avaliação desconhecido.'
-    assert all(anterior.get(chave) == valor for chave, valor in identidade.items()), 'Configuração mudou; não misture medições de execuções diferentes.'
     assert len(anterior.get('perguntas', [])) == len(esperadas), 'Quantidade de perguntas mudou.'
     for atual, esperado in zip(anterior['perguntas'], esperadas):
         assert all(atual.get(chave) == esperado[chave] for chave in ('nivel', 'pergunta', 'ground_truth')), 'Pergunta ou referência mudou; revise o checkpoint.'
@@ -496,7 +525,7 @@ class JuizSincrono(ChatOpenAI):
     async def agenerate_prompt(self, prompts, stop=None, callbacks=None, **kwargs):
         return await asyncio.to_thread(self.generate_prompt, prompts, stop=stop, callbacks=callbacks, **kwargs)
 
-juiz_modelo = JuizSincrono(model=MODEL_ID, api_key=OPENAI_API_KEY,
+juiz_modelo = JuizSincrono(**CONEXAO_LLM,
                            temperature=0, timeout=90, max_retries=0)
 juiz = LangchainLLMWrapper(juiz_modelo)
 embeddings_avaliacao = LangchainEmbeddingsWrapper(EmbeddingsLocais())

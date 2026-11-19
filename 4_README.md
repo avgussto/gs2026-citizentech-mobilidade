@@ -4,7 +4,7 @@ Protótipo acadêmico de assistente para a linha 714 de **Aurora do Vale, munic�
 
 ## Estado da entrega
 
-O notebook, os documentos, as ferramentas, a interface, os guardrails e a rotina de avaliação estão implementados. As oito respostas de referência escritas e revisadas pelo trio em 12/11/2026 foram inseridas na seção 7 e conferidas com a base simulada. Em 16/11/2026, a execução local assistida por IA mediu **32 de 32 scores RAGAS** com `gpt-4o-mini` via OpenAI e gerou sete PNGs de evidência. O JSON está em `status: medido`. O uso de IA no projeto está descrito em [6_Chat_Log.txt](6_Chat_Log.txt).
+O notebook, os documentos, as ferramentas, a interface, os guardrails e a rotina de avaliação estão implementados. As oito respostas de referência escritas e revisadas pelo trio em 12/11/2026 foram inseridas na seção 7 e conferidas com a base simulada. Em 16/11/2026, a execução local assistida por IA mediu **32 de 32 scores RAGAS** com `gpt-4o-mini` via OpenAI e gerou sete PNGs de evidência. O desenvolvimento e os testes usaram o OpenRouter gratuito (o Ollama Cloud pedido no briefing não estava utilizável), mas o limite diário do plano gratuito impediu concluir as 32 métricas a tempo; por isso a medição final foi feita na OpenAI. O JSON está em `status: medido`. O uso de IA no projeto está descrito em [6_Chat_Log.txt](6_Chat_Log.txt).
 
 ## Fluxo
 
@@ -19,7 +19,7 @@ flowchart LR
     R --> P[Prompt LCEL com contexto]
     Q --> T[Agente com duas tools]
     T --> P
-    P --> L[OpenAI: gpt-4o-mini]
+    P --> L[gpt-4o-mini via OpenAI ou OpenRouter]
     L --> V[Verificação de doc_id]
     V --> U[Gradio: resposta e fontes]
     V --> E[RAGAS: 8 perguntas]
@@ -32,7 +32,7 @@ O itinerário `AV-MOB-001` (20/10/2026) descreve o P07 como acessível. A portar
 ## Reproduzir no Colab
 
 1. Abra o [notebook no Google Colab](https://colab.research.google.com/drive/1WdDshf1cbZoeAy6SdYazyYqDxyqwxibA?usp=sharing) ou envie `1_Notebook_GS2026_2.ipynb` para o Colab. O notebook recria os três documentos caso a pasta ainda não exista; se a pasta for enviada, ele confere que os textos são idênticos.
-2. Cadastre `OPENAI_API_KEY` nos **Secrets** do Colab e dê acesso ao notebook. A chave é lida com `userdata.get('OPENAI_API_KEY')`; nunca a cole em célula, print, ZIP ou repositório. A execução usa a API da OpenAI e pode gerar cobrança.
+2. Cadastre **uma** chave nos **Secrets** do Colab e dê acesso ao notebook: `OPENAI_API_KEY` (OpenAI), `OPENROUTER_API_KEY` (OpenRouter) ou `API_KEY` (genérica: chaves `sk-or-` vão para o OpenRouter, as demais para a OpenAI ou para `API_BASE_URL`, se cadastrada). O modelo padrão é `gpt-4o-mini` (`openai/gpt-4o-mini` no OpenRouter); o secret opcional `MODEL_ID` troca o modelo, por exemplo `openrouter/free`. As chaves são lidas com `userdata.get(...)`; nunca as cole em célula, print, ZIP ou repositório. Se o `3_avaliacao_ragas.json` enviado tiver sido medido com outro modelo, o notebook guarda essa medição em `3_avaliacao_ragas_anterior.json` e mede de novo, sem misturar execuções.
 3. As oito respostas de referência do trio estão na lista `REFERENCIAS_MANUAIS` da seção 7.
 4. Execute **Runtime → Run all**. A instalação usa versões diretas fixadas: `langchain-core 1.7.7`, `langchain-openai 1.7.4`, `langchain-community 0.3.31`, `chromadb 1.5.9`, `sentence-transformers 6.2.0`, `gradio 6.31.0` e `ragas 0.4.3`. A execução requer acesso de rede para instalar pacotes, baixar o embedding e consultar a OpenAI. A execução local de 16/11/2026 concluiu as demonstrações e as 32 métricas; o `Run all` no Colab ainda deve ser conferido pelo trio.
 5. A seção 7 salva cada resposta e métrica concluída em `3_avaliacao_ragas.json`. Se uma chamada falhar, preserve o JSON parcial e retome com o mesmo arquivo: o notebook confere perguntas, referências, modelo e chunking. Baixe o notebook executado e o JSON medido para a pasta da entrega. Depois disso, não execute `build_notebook.py`, pois ele recria o notebook inicial e apaga as saídas da execução.
@@ -41,7 +41,7 @@ O itinerário `AV-MOB-001` (20/10/2026) descreve o P07 como acessível. A portar
 
 ### Teste local com `.env`
 
-Para rodar localmente, preencha **apenas no seu computador** `OPENAI_API_KEY=` no arquivo `.env` desta pasta. Não envie a chave no chat. O arquivo está no `.gitignore` e não entra no ZIP gerado por `package_submission.py`. Fora do Colab, o notebook lê esse `.env`; no Colab, use apenas **Secrets** e não faça upload do `.env`.
+Para rodar localmente, preencha **apenas no seu computador** `OPENAI_API_KEY=`, `OPENROUTER_API_KEY=` ou `API_KEY=` no arquivo `.env` desta pasta. Não envie a chave no chat. O arquivo está no `.gitignore` e não entra no ZIP gerado por `package_submission.py`. Fora do Colab, o notebook lê esse `.env`; no Colab, use apenas **Secrets** e não faça upload do `.env`.
 
 ### As oito respostas de referência
 
