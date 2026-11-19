@@ -1,19 +1,21 @@
 CERTIFICAÇÃO — GS2026.2 — CitizenTech Mobilidade
 
 Turma: 1CCR
+Disciplina: Prompt and Artificial Intelligence
 Modalidade: trio
 Integrantes:
 - Sergio Augusto — RM 570184
 - Gabriel Freitas — RM 572943
 - Giovanni Merlotti — RM 573721
 
-Projeto: Assistente de mobilidade da cidade fictícia de Aurora do Vale.
+Projeto: Assistente de mobilidade da cidade fictícia de Aurora do Vale (RAG da linha 714).
 Base documental: simulada e original.
 
-PENDENTE ANTES DO ENVIO:
-- Inserir link do notebook final no Colab: ____________________
-- Inserir link do vídeo não listado: ____________________
-- Inserir demais links exigidos pela tela final do Portal FIAP: ____________________
-- Revisar a declaração de autoria e uso de IA com todos os integrantes.
+Links da entrega:
+- Notebook no Google Colab: https://colab.research.google.com/drive/1WdDshf1cbZoeAy6SdYazyYqDxyqwxibA?usp=sharing
+- Repositório no GitHub: https://github.com/avgussto/gs2026-citizentech-mobilidade
+- Vídeo de demonstração (YouTube, não listado): VIDEO_URL
 
-Este arquivo é um modelo ainda não certificado pelo grupo.
+Declaração: o trio certifica que desenvolveu este projeto em conjunto, revisou os documentos, o código, as respostas de referência, os resultados da avaliação RAGAS e o vídeo, e que o uso de assistentes de IA está descrito de forma transparente em 6_Chat_Log.txt.
+
+Sergio Augusto, Gabriel Freitas e Giovanni Merlotti — 19/11/2026.

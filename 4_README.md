@@ -31,7 +31,7 @@ O itinerário `AV-MOB-001` (20/10/2026) descreve o P07 como acessível. A portar
 
 ## Reproduzir no Colab
 
-1. Abra `1_Notebook_GS2026_2.ipynb` no Google Colab. O notebook recria os três documentos caso a pasta ainda não exista; se a pasta for enviada, ele confere que os textos são idênticos.
+1. Abra o [notebook no Google Colab](https://colab.research.google.com/drive/1WdDshf1cbZoeAy6SdYazyYqDxyqwxibA?usp=sharing) ou envie `1_Notebook_GS2026_2.ipynb` para o Colab. O notebook recria os três documentos caso a pasta ainda não exista; se a pasta for enviada, ele confere que os textos são idênticos.
 2. Cadastre `OPENAI_API_KEY` nos **Secrets** do Colab e dê acesso ao notebook. A chave é lida com `userdata.get('OPENAI_API_KEY')`; nunca a cole em célula, print, ZIP ou repositório. A execução usa a API da OpenAI e pode gerar cobrança.
 3. As oito respostas de referência do trio estão na lista `REFERENCIAS_MANUAIS` da seção 7.
 4. Execute **Runtime → Run all**. A instalação usa versões diretas fixadas: `langchain-core 1.7.7`, `langchain-openai 1.7.4`, `langchain-community 0.3.31`, `chromadb 1.5.9`, `sentence-transformers 6.2.0`, `gradio 6.31.0` e `ragas 0.4.3`. A execução requer acesso de rede para instalar pacotes, baixar o embedding e consultar a OpenAI. A execução local de 16/11/2026 concluiu as demonstrações e as 32 métricas; o `Run all` no Colab ainda deve ser conferido pelo trio.
