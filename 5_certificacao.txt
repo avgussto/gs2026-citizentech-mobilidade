@@ -14,7 +14,7 @@ Base documental: simulada e original.
 Links da entrega:
 - Notebook no Google Colab: https://colab.research.google.com/drive/1WdDshf1cbZoeAy6SdYazyYqDxyqwxibA?usp=sharing
 - Repositório no GitHub: https://github.com/avgussto/gs2026-citizentech-mobilidade
-- Vídeo de demonstração (YouTube, não listado): VIDEO_URL
+- Vídeo de demonstração (YouTube, não listado): https://youtu.be/a_Eq_RQ8E8Q
 
 Declaração: o trio certifica que desenvolveu este projeto em conjunto, revisou os documentos, o código, as respostas de referência, os resultados da avaliação RAGAS e o vídeo, e que o uso de assistentes de IA está descrito de forma transparente em 6_Chat_Log.txt.
 

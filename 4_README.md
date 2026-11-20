@@ -34,7 +34,7 @@ O itinerário `AV-MOB-001` (20/10/2026) descreve o P07 como acessível. A portar
 1. Abra o [notebook no Google Colab](https://colab.research.google.com/drive/1WdDshf1cbZoeAy6SdYazyYqDxyqwxibA?usp=sharing) ou envie `1_Notebook_GS2026_2.ipynb` para o Colab. O notebook recria os três documentos caso a pasta ainda não exista; se a pasta for enviada, ele confere que os textos são idênticos.
 2. Cadastre **uma** chave nos **Secrets** do Colab e dê acesso ao notebook: `OPENAI_API_KEY` (OpenAI), `OPENROUTER_API_KEY` (OpenRouter) ou `API_KEY` (genérica: chaves `sk-or-` vão para o OpenRouter, as demais para a OpenAI ou para `API_BASE_URL`, se cadastrada). O modelo padrão é `gpt-4o-mini` (`openai/gpt-4o-mini` no OpenRouter); o secret opcional `MODEL_ID` troca o modelo, por exemplo `openrouter/free`. As chaves são lidas com `userdata.get(...)`; nunca as cole em célula, print, ZIP ou repositório. Se o `3_avaliacao_ragas.json` enviado tiver sido medido com outro modelo, o notebook guarda essa medição em `3_avaliacao_ragas_anterior.json` e mede de novo, sem misturar execuções.
 3. As oito respostas de referência do trio estão na lista `REFERENCIAS_MANUAIS` da seção 7.
-4. Execute **Runtime → Run all**. A instalação usa versões diretas fixadas: `langchain-core 1.7.7`, `langchain-openai 1.7.4`, `langchain-community 0.3.31`, `chromadb 1.5.9`, `sentence-transformers 6.2.0`, `gradio 6.31.0` e `ragas 0.4.3`. A execução requer acesso de rede para instalar pacotes, baixar o embedding e consultar a OpenAI. A execução local de 16/11/2026 concluiu as demonstrações e as 32 métricas; o `Run all` no Colab ainda deve ser conferido pelo trio.
+4. Execute **Runtime → Run all**. A instalação usa versões diretas fixadas: `langchain-core 1.7.7`, `langchain-openai 1.7.4`, `langchain-community 0.3.31`, `chromadb 1.5.9`, `sentence-transformers 6.2.0`, `gradio 6.31.0` e `ragas 0.4.3`. A execução requer acesso de rede para instalar pacotes, baixar o embedding e consultar o provedor do modelo (OpenAI ou OpenRouter). A execução local de 16/11/2026 concluiu as demonstrações e as 32 métricas; o `Run all` no Colab foi concluído sem erros pelo trio em 19/11/2026.
 5. A seção 7 salva cada resposta e métrica concluída em `3_avaliacao_ragas.json`. Se uma chamada falhar, preserve o JSON parcial e retome com o mesmo arquivo: o notebook confere perguntas, referências, modelo e chunking. Baixe o notebook executado e o JSON medido para a pasta da entrega. Depois disso, não execute `build_notebook.py`, pois ele recria o notebook inicial e apaga as saídas da execução.
 6. Os sete PNGs gerados localmente estão em `2_base_documental/evidencias/`. As imagens de saída foram renderizadas a partir dos logs executados; a interface Gradio foi capturada no navegador com duas perguntas, histórico e fontes. O carregador do notebook lê apenas `doc_*.md` da raiz da pasta, portanto as imagens não entram no índice.
 7. Após preencher certificação e link do vídeo, rode `python package_submission.py`. O script verifica os itens finais e cria `GS2026_2_1CCR_AuroraDoVale.zip`.
@@ -88,12 +88,12 @@ Não há dados em tempo real, tarifas, feriados, previsão de passagem em pontos
 
 ## Checklist de envio
 
-- [ ] `Run all` completo em Colab limpo, sem erros, com as oito referências revisadas
+- [x] `Run all` completo em Colab limpo, sem erros, com as oito referências revisadas
 - [x] `3_avaliacao_ragas.json` com `status: medido` e quatro métricas por pergunta na execução local
 - [x] Conclusão com até 15 linhas, resultados numéricos reais e uma melhoria proposta
 - [x] PNGs da execução local vinculados neste README
-- [ ] `5_certificacao.txt` com links finais e nomes/RMs
+- [x] `5_certificacao.txt` com links finais e nomes/RMs
 - [x] `6_Chat_Log.txt` revisado pelo trio
-- [ ] `7_demo_video_url.txt` com vídeo YouTube não listado, até 3 minutos e apresentação dos três integrantes
-- [ ] ZIP `GS2026_2_1CCR_<NOME_GRUPO>.zip`, com sete entradas principais, sem chave exposta
+- [x] `7_demo_video_url.txt` com vídeo YouTube não listado, até 3 minutos e apresentação dos três integrantes
+- [x] ZIP `GS2026_2_1CCR_AuroraDoVale.zip`, com sete entradas principais, sem chave exposta
 - [ ] Envio no Portal FIAP até 19/11/2026 às 23h59
