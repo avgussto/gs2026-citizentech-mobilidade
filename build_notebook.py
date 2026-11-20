@@ -582,9 +582,9 @@ markdown("""## 8. Conclusão
 
 O pipeline combina os três documentos simulados, embeddings locais, ChromaDB, LCEL, `gpt-4o-mini`, duas ferramentas determinísticas e verificação de fontes. A portaria posterior prevalece sobre o itinerário anterior no estado do P07.
 
-Na avaliação local de 16/11/2026, as oito perguntas produziram 32 scores reais. As médias RAGAS foram: `faithfulness` **0,9571**, `response_relevancy` **0,7786**, `context_precision` **0,9104** e `context_recall` **0,6667**. O JSON preserva os valores individuais.
+Na execução completa no Google Colab em 19/11/2026, as oito perguntas produziram 32 scores reais, exportados em `3_avaliacao_ragas.json`. As médias RAGAS foram: `faithfulness` **0,9393**, `response_relevancy` **0,7717**, `context_precision` **0,9104** e `context_recall` **0,6771**. Uma execução local anterior (16/11/2026), com a mesma configuração, obteve 0,9571, 0,7786, 0,9104 e 0,6667; a diferença vem da variação do juiz LLM, por isso tratamos oscilações de cerca de 0,02 como ruído, não como melhora ou piora do RAG.
 
-Uma falha observada foi a resposta à pergunta 8: começou com “Sim”, mas concluiu corretamente que a tabela de horários não foi cancelada. A melhoria proposta é exigir que perguntas de sim/não comecem com a conclusão direta e passem por uma checagem de coerência entre a primeira frase e a fonte citada. O filtro de escopo também foi corrigido após rejeitar indevidamente perguntas sobre `P07` e “tabela de horários”. Para produção seriam necessários dados oficiais atualizados, controle de acesso, revisão LGPD e monitoramento.
+A falha mais clara é a pergunta 8 (`faithfulness` 0,7143 no Colab): a resposta começa com “Sim, a tabela de horários de outubro foi afetada”, mas conclui que a tabela continua válida, porque a portaria mantém as partidas programadas. A melhoria proposta é exigir que perguntas de sim/não comecem com a conclusão direta e passem por uma checagem de coerência entre a primeira frase e a fonte citada. O filtro de escopo também foi corrigido após rejeitar indevidamente perguntas sobre `P07` e “tabela de horários”. Para produção seriam necessários dados oficiais atualizados, controle de acesso, revisão LGPD e monitoramento.
 """)
 
 notebook = {

@@ -4,7 +4,7 @@ Protótipo acadêmico de assistente para a linha 714 de **Aurora do Vale, munic�
 
 ## Estado da entrega
 
-O notebook, os documentos, as ferramentas, a interface, os guardrails e a rotina de avaliação estão implementados. As oito respostas de referência escritas e revisadas pelo trio em 12/11/2026 foram inseridas na seção 7 e conferidas com a base simulada. Em 16/11/2026, a execução local assistida por IA mediu **32 de 32 scores RAGAS** com `gpt-4o-mini` via OpenAI e gerou sete PNGs de evidência. O desenvolvimento e os testes usaram o OpenRouter gratuito (o Ollama Cloud pedido no briefing não estava utilizável), mas o limite diário do plano gratuito impediu concluir as 32 métricas a tempo; por isso a medição final foi feita na OpenAI. O JSON está em `status: medido`. O uso de IA no projeto está descrito em [6_Chat_Log.txt](6_Chat_Log.txt).
+O notebook, os documentos, as ferramentas, a interface, os guardrails e a rotina de avaliação estão implementados. As oito respostas de referência escritas e revisadas pelo trio em 12/11/2026 foram inseridas na seção 7 e conferidas com a base simulada. Em 19/11/2026, o `Run all` no Google Colab concluiu sem erros e mediu **32 de 32 scores RAGAS** com `gpt-4o-mini` via OpenAI; o notebook e o JSON deste ZIP são dessa execução. Uma execução local anterior, em 16/11/2026, gerou os sete PNGs de evidência e os números citados no vídeo. O desenvolvimento e os testes usaram o OpenRouter gratuito (o Ollama Cloud pedido no briefing não estava utilizável), mas o limite diário do plano gratuito impediu concluir as 32 métricas a tempo; por isso a medição final foi feita na OpenAI. O JSON está em `status: medido`. O uso de IA no projeto está descrito em [6_Chat_Log.txt](6_Chat_Log.txt).
 
 ## Fluxo
 
@@ -82,9 +82,10 @@ Não há dados em tempo real, tarifas, feriados, previsão de passagem em pontos
 | Trace das duas ferramentas | [agente_trace.png](2_base_documental/evidencias/agente_trace.png) |
 | Interface com duas perguntas, histórico e fontes | [interface_gradio.png](2_base_documental/evidencias/interface_gradio.png) |
 | Quatro guardrails | [guardrails.png](2_base_documental/evidencias/guardrails.png) |
-| RAGAS por pergunta e médias | [ragas_scores.png](2_base_documental/evidencias/ragas_scores.png); [3_avaliacao_ragas.json](3_avaliacao_ragas.json), `medido`, 32/32 |
-| Médias RAGAS | `faithfulness` 0,9571; `response_relevancy` 0,7786; `context_precision` 0,9104; `context_recall` 0,6667 |
-| Falha observada e melhoria concreta | A resposta à pergunta 8 começou com “Sim”, embora a tabela não tenha sido cancelada. Proposta: exigir conclusão direta de sim/não e conferir a coerência da primeira frase com a fonte. |
+| RAGAS por pergunta e médias | [3_avaliacao_ragas.json](3_avaliacao_ragas.json), `medido`, 32/32 (Colab, 19/11); [ragas_scores.png](2_base_documental/evidencias/ragas_scores.png) mostra a execução local de 16/11 |
+| Médias RAGAS (Colab, 19/11) | `faithfulness` 0,9393; `response_relevancy` 0,7717; `context_precision` 0,9104; `context_recall` 0,6771 |
+| Médias RAGAS (local, 16/11, vídeo e PNG) | `faithfulness` 0,9571; `response_relevancy` 0,7786; `context_precision` 0,9104; `context_recall` 0,6667. Diferença de até 0,02 atribuída à variação do juiz LLM |
+| Falha observada e melhoria concreta | Nas duas execuções, a resposta à pergunta 8 começou com “Sim”, embora a tabela não tenha sido cancelada (`faithfulness` 0,7143 no Colab). Proposta: exigir conclusão direta de sim/não e conferir a coerência da primeira frase com a fonte. |
 
 ## Checklist de envio
 

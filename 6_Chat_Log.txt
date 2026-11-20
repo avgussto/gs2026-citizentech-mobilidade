@@ -32,7 +32,8 @@ APOIO DE IA UTILIZADO
 
 REVISÃO E AUTORIA DO GRUPO
 - Documentos simulados, código, respostas de referência e guardrails: revisados pelo trio em conjunto.
-- Resultado RAGAS (médias: faithfulness 0,9571; response_relevancy 0,7786; context_precision 0,9104; context_recall 0,6667), interpretação dos números e melhoria proposta para a pergunta 8: analisados pelo trio em conjunto.
+- 19/11/2026: o trio executou o Run all no Google Colab sem erros; o notebook e o JSON entregues são dessa execução.
+- Resultado RAGAS (Colab, 19/11: faithfulness 0,9393; response_relevancy 0,7717; context_precision 0,9104; context_recall 0,6771. Local, 16/11: 0,9571; 0,7786; 0,9104; 0,6667), interpretação dos números e melhoria proposta para a pergunta 8: analisados pelo trio em conjunto.
 - Vídeo: falas gravadas por Sergio, Giovanni e Gabriel; montagem assistida por IA e revisada pelo trio.
 - Revisão final do ZIP e envio: trio, em 19/11/2026.
 
